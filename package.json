@@ -1,0 +1,22 @@
+{
+  "name": "odin-tictactoe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SameedBaqai94/odin-tictactoe.git"
+  },
+  "author": "sameed",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SameedBaqai94/odin-tictactoe/issues"
+  },
+  "homepage": "https://github.com/SameedBaqai94/odin-tictactoe#readme",
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  }
+}
