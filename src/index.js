@@ -95,11 +95,12 @@ const game = (() => {
   const parseInput = (e) => {
     let markLocation = e.target.id;
     let [x, y] = markLocation.split("-");
-    return [parseInt(x), parseInt(y)]
-  }
+    return [parseInt(x), parseInt(y)];
+  };
+
   return () => {
-    const mainBox = document.querySelectorAll('.box');
-    const gameBoard = document.getElementById('gameboard');
+    const mainBox = document.querySelectorAll(".box");
+    const gameBoard = document.getElementById("gameboard");
 
     let _player1 = Players();
     let _player2 = Players();
@@ -110,9 +111,8 @@ const game = (() => {
     _player1.setActive();
     Board.setBoard();
 
-
-    mainBox.forEach(box => {
-      box.addEventListener('click', e => {
+    mainBox.forEach((box) => {
+      box.addEventListener("click", (e) => {
         if (_player1.getActive()) {
           let [x, y] = parseInput(e);
 
@@ -125,12 +125,12 @@ const game = (() => {
 
           if (gameController.checkWinner(_player1.getMark())) {
             alert("Player 1, is the winner");
-            gameBoard.classList.add('disabledbutton');
+            gameBoard.classList.add("disabledbutton");
           }
 
           _player1.setActive();
           _player2.setActive();
-          return
+          return;
         }
         if (_player2.getActive()) {
           let [x, y] = parseInput(e);
@@ -144,15 +144,15 @@ const game = (() => {
 
           if (gameController.checkWinner(_player2.getMark())) {
             console.log("Player 2, is the winner");
-            gameBoard.classList.add('disabledbutton');
+            gameBoard.classList.add("disabledbutton");
           }
 
           _player1.setActive();
           _player2.setActive();
-          return
+          return;
         }
-      })
-    })
+      });
+    });
     //while (Board.checkIfBoardIsFull()) {
     // if (_player1.getActive()) {
     //   let markXY = prompt(
@@ -214,8 +214,16 @@ const game = (() => {
     // }
     // Board.printBoard();
     //}
-
   };
 })();
 
 game();
+//reset
+const reset = document.getElementById("reset");
+reset.addEventListener("click", () => {
+  const box = document.querySelectorAll(".box");
+  box.forEach((b) => {
+    b.textContent = "";
+  });
+  game();
+});
