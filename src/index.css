@@ -1,14 +1,67 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap');
-*{
+
+* {
     font-family: 'Roboto Mono', monospace;
     box-sizing: border-box;
     padding: 0;
     margin: 0;
 }
 
-.header{
+.header {
     background-color: #E8E8E8;
     text-align: center;
     height: 100px;
-    padding:20px;
+    padding: 20px;
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.main .gameboard {
+    width: 400px;
+    height: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.main .gameboard div {
+    flex: 0 0 33.333333%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main .gameboard div:first-child,
+.main .gameboard div:nth-child(1),
+.main .gameboard div:nth-child(2),
+.main .gameboard div:nth-child(3),
+.main .gameboard div:nth-child(4),
+.main .gameboard div:nth-child(5),
+.main .gameboard div:nth-child(6) {
+    border-bottom: 1px solid black;
+}
+
+.main .gameboard div:nth-child(1),
+.main .gameboard div:nth-child(2),
+.main .gameboard div:nth-child(4),
+.main .gameboard div:nth-child(5),
+.main .gameboard div:nth-child(7),
+.main .gameboard div:nth-child(8) {
+    border-right: 1px solid black;
+}
+
+.disabledbutton {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.footer {
+    background-color: #E8E8E8;
+    text-align: center;
+    height: 50px;
 }

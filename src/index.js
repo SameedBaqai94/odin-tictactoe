@@ -1,4 +1,4 @@
-const prompt = require("prompt-sync")({ sigint: true });
+/*const prompt = require("prompt-sync")({ sigint: true });*/
 
 const Players = () => {
   let _mark = null;
@@ -92,7 +92,15 @@ const gameController = (() => {
 })();
 
 const game = (() => {
+  const parseInput = (e) => {
+    let markLocation = e.target.id;
+    let [x, y] = markLocation.split("-");
+    return [parseInt(x), parseInt(y)]
+  }
   return () => {
+    const mainBox = document.querySelectorAll('.box');
+    const gameBoard = document.getElementById('gameboard');
+
     let _player1 = Players();
     let _player2 = Players();
 
@@ -102,67 +110,111 @@ const game = (() => {
     _player1.setActive();
     Board.setBoard();
 
-    while (Board.checkIfBoardIsFull()) {
-      if (_player1.getActive()) {
-        let markXY = prompt(
-          "Player 1, Where do you want to put your mark? (x,y) "
-        );
-        markXY = markXY.split(",");
-        if (!Board.checkIfNotTaken(markXY[0], markXY[1])) {
-          console.log("Sorry, spot is taken.");
-          continue;
+
+    mainBox.forEach(box => {
+      box.addEventListener('click', e => {
+        if (_player1.getActive()) {
+          let [x, y] = parseInput(e);
+
+          if (!Board.checkIfNotTaken(x, y)) {
+            console.log("Sorry, spot is taken.");
+          }
+
+          gameController.placeMark(x, y, _player1.getMark());
+          box.textContent = _player1.getMark();
+
+          if (gameController.checkWinner(_player1.getMark())) {
+            alert("Player 1, is the winner");
+            gameBoard.classList.add('disabledbutton');
+          }
+
+          _player1.setActive();
+          _player2.setActive();
+          return
         }
+        if (_player2.getActive()) {
+          let [x, y] = parseInput(e);
 
-        gameController.placeMark(markXY[0], markXY[1], _player1.getMark());
+          if (!Board.checkIfNotTaken(x, y)) {
+            console.log("Sorry, spot is taken.");
+          }
 
-        if (gameController.checkWinner(_player1.getMark())) {
-          console.log("Player 1, is the winner");
-          console.log("Game will reset");
-          gameController.reset();
-          continue;
+          gameController.placeMark(x, y, _player2.getMark());
+          box.textContent = _player2.getMark();
+
+          if (gameController.checkWinner(_player2.getMark())) {
+            console.log("Player 2, is the winner");
+            gameBoard.classList.add('disabledbutton');
+          }
+
+          _player1.setActive();
+          _player2.setActive();
+          return
         }
+      })
+    })
+    //while (Board.checkIfBoardIsFull()) {
+    // if (_player1.getActive()) {
+    //   let markXY = prompt(
+    //     "Player 1, Where do you want to put your mark? (x,y) "
+    //   );
+    //   markXY = markXY.split(",");
+    //   if (!Board.checkIfNotTaken(markXY[0], markXY[1])) {
+    //     console.log("Sorry, spot is taken.");
+    //     continue;
+    //   }
 
-        if (gameController.checkDraw()) {
-          console.log("Game is drawn");
-          console.log("Game will reset");
-          gameController.reset();
-          continue;
-        }
+    //   gameController.placeMark(markXY[0], markXY[1], _player1.getMark());
 
-        _player1.setActive();
-        _player2.setActive();
-      } else if (_player2.getActive()) {
-        let markXY = prompt(
-          "Player 2, Where do you want to put your mark? (x,y) "
-        );
+    //   if (gameController.checkWinner(_player1.getMark())) {
+    //     console.log("Player 1, is the winner");
+    //     console.log("Game will reset");
+    //     gameController.reset();
+    //     continue;
+    //   }
 
-        markXY = markXY.split(",");
-        if (!Board.checkIfNotTaken(markXY[0], markXY[1])) {
-          console.log("Sorry, spot is taken.");
-          continue;
-        }
+    //   if (gameController.checkDraw()) {
+    //     console.log("Game is drawn");
+    //     console.log("Game will reset");
+    //     gameController.reset();
+    //     continue;
+    //   }
 
-        gameController.placeMark(markXY[0], markXY[1], _player2.getMark());
+    //   _player1.setActive();
+    //   _player2.setActive();
+    // } else if (_player2.getActive()) {
+    //   let markXY = prompt(
+    //     "Player 2, Where do you want to put your mark? (x,y) "
+    //   );
 
-        if (gameController.checkWinner(_player2.getMark())) {
-          console.log("Player 2, is the winner");
-          console.log("Game will reset");
-          gameController.reset();
-          continue;
-        }
+    //   markXY = markXY.split(",");
+    //   if (!Board.checkIfNotTaken(markXY[0], markXY[1])) {
+    //     console.log("Sorry, spot is taken.");
+    //     continue;
+    //   }
 
-        if (gameController.checkDraw()) {
-          console.log("Game is drawn");
-          console.log("Game will reset");
-          gameController.reset();
-          continue;
-        }
+    //   gameController.placeMark(markXY[0], markXY[1], _player2.getMark());
 
-        _player1.setActive();
-        _player2.setActive();
-      }
-      Board.printBoard();
-    }
+    //   if (gameController.checkWinner(_player2.getMark())) {
+    //     console.log("Player 2, is the winner");
+    //     console.log("Game will reset");
+    //     gameController.reset();
+    //     continue;
+    //   }
+
+    //   if (gameController.checkDraw()) {
+    //     console.log("Game is drawn");
+    //     console.log("Game will reset");
+    //     gameController.reset();
+    //     continue;
+    //   }
+
+    //   _player1.setActive();
+    //   _player2.setActive();
+    // }
+    // Board.printBoard();
+    //}
+
   };
 })();
 
