@@ -1,5 +1,9 @@
 /*const prompt = require("prompt-sync")({ sigint: true });*/
 
+const mainBox = document.querySelectorAll(".box");
+const gameBoard = document.getElementById("gameboard");
+const reset = document.getElementById("reset");
+
 const Players = () => {
   let _mark = null;
   let _active = false;
@@ -99,8 +103,6 @@ const game = (() => {
   };
 
   return () => {
-    const mainBox = document.querySelectorAll(".box");
-    const gameBoard = document.getElementById("gameboard");
 
     let _player1 = Players();
     let _player2 = Players();
@@ -113,7 +115,7 @@ const game = (() => {
 
     mainBox.forEach((box) => {
       box.addEventListener("click", (e) => {
-        if (_player1.getActive()) {
+        if (_player1.getActive() && e.target.textContent == '') {
           let [x, y] = parseInput(e);
 
           if (!Board.checkIfNotTaken(x, y)) {
@@ -132,7 +134,7 @@ const game = (() => {
           _player2.setActive();
           return;
         }
-        if (_player2.getActive()) {
+        if (_player2.getActive() && e.target.textContent == '') {
           let [x, y] = parseInput(e);
 
           if (!Board.checkIfNotTaken(x, y)) {
@@ -143,7 +145,7 @@ const game = (() => {
           box.textContent = _player2.getMark();
 
           if (gameController.checkWinner(_player2.getMark())) {
-            console.log("Player 2, is the winner");
+            alert("Player 2, is the winner");
             gameBoard.classList.add("disabledbutton");
           }
 
@@ -153,77 +155,16 @@ const game = (() => {
         }
       });
     });
-    //while (Board.checkIfBoardIsFull()) {
-    // if (_player1.getActive()) {
-    //   let markXY = prompt(
-    //     "Player 1, Where do you want to put your mark? (x,y) "
-    //   );
-    //   markXY = markXY.split(",");
-    //   if (!Board.checkIfNotTaken(markXY[0], markXY[1])) {
-    //     console.log("Sorry, spot is taken.");
-    //     continue;
-    //   }
-
-    //   gameController.placeMark(markXY[0], markXY[1], _player1.getMark());
-
-    //   if (gameController.checkWinner(_player1.getMark())) {
-    //     console.log("Player 1, is the winner");
-    //     console.log("Game will reset");
-    //     gameController.reset();
-    //     continue;
-    //   }
-
-    //   if (gameController.checkDraw()) {
-    //     console.log("Game is drawn");
-    //     console.log("Game will reset");
-    //     gameController.reset();
-    //     continue;
-    //   }
-
-    //   _player1.setActive();
-    //   _player2.setActive();
-    // } else if (_player2.getActive()) {
-    //   let markXY = prompt(
-    //     "Player 2, Where do you want to put your mark? (x,y) "
-    //   );
-
-    //   markXY = markXY.split(",");
-    //   if (!Board.checkIfNotTaken(markXY[0], markXY[1])) {
-    //     console.log("Sorry, spot is taken.");
-    //     continue;
-    //   }
-
-    //   gameController.placeMark(markXY[0], markXY[1], _player2.getMark());
-
-    //   if (gameController.checkWinner(_player2.getMark())) {
-    //     console.log("Player 2, is the winner");
-    //     console.log("Game will reset");
-    //     gameController.reset();
-    //     continue;
-    //   }
-
-    //   if (gameController.checkDraw()) {
-    //     console.log("Game is drawn");
-    //     console.log("Game will reset");
-    //     gameController.reset();
-    //     continue;
-    //   }
-
-    //   _player1.setActive();
-    //   _player2.setActive();
-    // }
-    // Board.printBoard();
-    //}
   };
 })();
 
 game();
+
 //reset
-const reset = document.getElementById("reset");
 reset.addEventListener("click", () => {
-  const box = document.querySelectorAll(".box");
-  box.forEach((b) => {
+  mainBox.forEach((b) => {
     b.textContent = "";
   });
+  gameBoard.classList.remove('disabledbutton');
   game();
 });

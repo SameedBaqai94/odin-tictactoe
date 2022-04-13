@@ -23,19 +23,23 @@
 }
 
 .main .gameboard {
-    width: 400px;
-    height: 400px;
+    min-width: 500px;
+    min-height: 500px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
     margin-bottom: 50px;
 }
 
 .main .gameboard div {
-    flex: 0 0 33.333333%;
+    flex: 0 0 30%;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 200px;
+    width: 100px;
+    font-size: 10em;
 }
 
 .main .gameboard div:first-child,
@@ -65,5 +69,5 @@
 .footer {
     background-color: #E8E8E8;
     text-align: center;
-    height: 50px;
+    height: 100vh;
 }
